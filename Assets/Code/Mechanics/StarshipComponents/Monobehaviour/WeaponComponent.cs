@@ -12,12 +12,13 @@ public class WeaponComponent : MonoBehaviour
         get { return weaponSchematic; }
         set { weaponSchematic = value; }
     }
+    public GameObject munitionPrefab;
 
-    public float WeaponPower { get; set; }
-    public float WeaponCooldown { get; set; }
-    public float WeaponRange { get; set; }
-    public float WeaponTimer { get; set; }
-    public bool WeaponReady { get; set; }
+    public float WeaponDamage;
+    public float WeaponRange;
+    public float WeaponCooldown;
+    public float WeaponTimer;
+    public bool WeaponReady;
     [SerializeField]
     private FactionAlignment factionAlignment;
     public FactionAlignment FactionAlignment
@@ -46,8 +47,8 @@ public class WeaponComponent : MonoBehaviour
     }
     private void Start()
     {
-        WeaponSchematic.InitComponent(this);
         factionAlignment = GetComponentInParent<Faction>().FactionAlignment;
+        WeaponSchematic.InitComponent(this);       
     }
 
     // Update is called once per frame

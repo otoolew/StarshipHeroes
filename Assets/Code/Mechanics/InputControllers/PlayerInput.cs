@@ -37,7 +37,6 @@ public class PlayerInput : MonoBehaviour
         get { return primaryWeaponFire && !playerControllerInputBlocked && !externalInputBlocked; }
     }
     #endregion
-
     #region Secondary Weapon Input
     public KeyCode secondaryWeaponKey;
     private bool secondaryWeaponFire;
@@ -46,10 +45,10 @@ public class PlayerInput : MonoBehaviour
         get { return secondaryWeaponFire && !playerControllerInputBlocked && !externalInputBlocked; }
     }
     #endregion
-
     #region Properties and Variables
     public float ThrustInput;
     public float RotationInput;
+    public float Thrust;
     public Vector3 EulerAngleVelocity { get; set; }
 
     #endregion
@@ -79,6 +78,7 @@ public class PlayerInput : MonoBehaviour
         //weaponController.WeaponComponents = GetComponentsInChildren<WeaponComponent>(); <- Prefab set for now
         EulerAngleVelocity = new Vector3(0, Starship.HullComponent.RotationSpeed, 0);
         GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
+        Thrust = Starship.EngineComponent.EnginePower * 4;
     }
 	
 	// Update is called once per frame
@@ -102,6 +102,7 @@ public class PlayerInput : MonoBehaviour
     }
 
     #endregion
+
     public bool HaveControl()
     {
         return !externalInputBlocked;
@@ -119,18 +120,18 @@ public class PlayerInput : MonoBehaviour
     public void AccelerateStarship()
     {
         if (ThrustInput >= 0)
-            RigidBody.AddForce(transform.forward * ThrustInput * Starship.EngineComponent.EnginePower);
+            RigidBody.AddForce(transform.forward * ThrustInput * Thrust);
 
         // Limit Speed
-        if (RigidBody.velocity.magnitude > Starship.EngineComponent.EnginePower)
+        if (RigidBody.velocity.magnitude > Thrust)
         {
-            RigidBody.velocity = Vector3.ClampMagnitude(RigidBody.velocity, Starship.EngineComponent.EnginePower);
+            RigidBody.velocity = Vector3.ClampMagnitude(RigidBody.velocity, Thrust);
         }
     }
 
     public void RotateStarship()
     {
-        Quaternion rotation = Quaternion.Euler(EulerAngleVelocity * RotationInput * Time.deltaTime);
+        Quaternion rotation = Quaternion.Euler(EulerAngleVelocity * (RotationInput) * Time.deltaTime);
         RigidBody.MoveRotation(RigidBody.rotation * rotation);
     }
    

@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSchematic: {fileID: 11400000, guid: 9952c6ee4fd1e2d43b18c7be3b198c07, type: 2}
+  munitionPrefab: {fileID: 1561240576516600, guid: c8bab7055803d784e833ba67b066563b,
+    type: 3}
   factionAlignment: {fileID: 0}
   firePoint: {fileID: 5848957364948844729}
 --- !u!1 &8749909323119936262

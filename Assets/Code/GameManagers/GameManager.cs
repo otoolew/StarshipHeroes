@@ -1,7 +1,7 @@
 ﻿// ----------------------------------------------------------------------------
-//  William O'Toole 
-//  Project: Starship
-//  SEPT 2018
+//  University of Pittsburgh  
+//  GamesEdu Workshop #2
+//  19 SEPT 2018
 // ----------------------------------------------------------------------------
 using UnityEngine;
 using UnityEngine.Events;
@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager>
         GAMEOVER
     }
     public SceneController sceneController;
+
     /// <summary>
     /// Event that will notify all subscribers of the GameStateChange Event.
     /// </summary>
@@ -41,7 +42,6 @@ public class GameManager : Singleton<GameManager>
         get { return _currentGameState; }
         private set { _currentGameState = value; }
     }
-
     /// <summary>
     /// Execute after Awake and before first Update. Init Here!
     /// </summary>
@@ -49,7 +49,6 @@ public class GameManager : Singleton<GameManager>
     {
         DontDestroyOnLoad(gameObject); // Tells Unity that we do not want to destroy this GameObject on Scene Load
         GMData.CurrentGameState = _currentGameState; // Set the GameManager state to the stores state in GMData
-        sceneController = GetComponent<SceneController>();
         sceneController.onSceneChangeStart.AddListener(HandleSceneChangeStart); // Subscribe or Listen for EventSceneChangeStart
         sceneController.onSceneChangeComplete.AddListener(HandleSceneChangeComplete);// Subscribe or Listen for EventSceneChangeComplete
         OnGameStateChanged.Invoke(GMData.CurrentGameState, _currentGameState); // Let ALL other components listening for EventGameStateChange that the GameState has changed

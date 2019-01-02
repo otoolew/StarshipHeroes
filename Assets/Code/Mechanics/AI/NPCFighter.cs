@@ -45,37 +45,31 @@ public class NPCFighter : MonoBehaviour
     }
 
     public List<Transform> patrolPoints;
-    public void Initialize()
-    {
-        targetController = GetComponentInChildren<TargetController>();
-    }
+
     // Use this for initialization
     void Start ()
     {
-        Initialize();
         StarshipInit();
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void LateUpdate ()
     {
         if(targetController.CurrentTarget != null)
         {
-            starshipNavigation.GoToPosition(targetController.CurrentTarget.transform.position);
             MissionStatus = Enums.MissionStatus.ENGAGING;
         }
 
         switch (MissionStatus)
         {
-            case Enums.MissionStatus.ENGAGING:
-                starshipNavigation.StopDistance = GetComponentInChildren<WeaponComponent>().WeaponRange;
-                FireWeapon(weaponComponent);
+            case Enums.MissionStatus.ENGAGING:               
+                EngageEnemy();
                 break;
             case Enums.MissionStatus.DEFENDING:
                 DefendPosition();
                 break;
             case Enums.MissionStatus.PATROLING:
-                starshipNavigation.StopDistance = 1f;
+                //starshipNavigation.StopDistance = 1f;
                 ContinuePatrol();               
                 break;
             default:
@@ -100,26 +94,32 @@ public class NPCFighter : MonoBehaviour
     }
     public void EngageEnemy()
     {
-        starshipNavigation.StopDistance = weaponComponent.WeaponRange;
+        starshipNavigation.SetStoppingDistance(weaponComponent.WeaponRange);
+        if(targetController.CurrentTarget != null)
+            starshipNavigation.GoToPosition(targetController.CurrentTarget.transform.position);
         FireWeapon(weaponComponent);
     }
     public void DefendPosition()
     {
-        if(defensePosition == null)
+
+        if (defensePosition == null)
         {
             MissionStatus = Enums.MissionStatus.IDLE;
             return;
         }
+        starshipNavigation.SetStoppingDistance(0.1f);
         starshipNavigation.GoToPosition(defensePosition.position);
     }
     public void ContinuePatrol()
     {
+
         if (patrolPoints.Count == 0)
             return;
-        starshipNavigation.StopDistance = 0.1f;
         if (starshipNavigation.DistanceToDestination < starshipNavigation.StopDistance)
             currentPatrolPoint = (currentPatrolPoint + 1) % patrolPoints.Count;
-        starshipNavigation.GoToPosition(patrolPoints[currentPatrolPoint].position);       
+        starshipNavigation.SetStoppingDistance(0.1f);
+        starshipNavigation.GoToPosition(patrolPoints[currentPatrolPoint].position);   
+
     }
     public void RecieveDistressCall(ResourceField resourceField)
     {
@@ -138,6 +138,6 @@ public class NPCFighter : MonoBehaviour
     {
         yield return new WaitForSeconds(.01f);
         weaponComponent = GetComponentInChildren<WeaponComponent>();
-
+        targetController = GetComponentInChildren<TargetController>();
     }
 }

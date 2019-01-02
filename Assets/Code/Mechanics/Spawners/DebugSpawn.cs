@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DebugSpawn : MonoBehaviour
 {
+    public KeyCode spawnKey;
     public Starship starshipPrefab;
     public FactionAlignment faction;
     // Start is called before the first frame update

@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3178018924870829840}
   - component: {fileID: 6087875894602532774}
   - component: {fileID: 4456450110129798433}
-  m_Layer: 10
+  m_Layer: 9
   m_Name: Hull_ACE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,11 +157,6 @@ MonoBehaviour:
   faction: {fileID: 0}
   hullSchematic: {fileID: 11400000, guid: e8d422e12c0fab745993285f813499b1, type: 2}
   damageComponent: {fileID: 0}
-  OnDead:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &4456450110129798433
 MonoBehaviour:
   m_ObjectHideFlags: 0
